@@ -1,0 +1,100 @@
+version: "3.9"
+
+services:
+  fhir-db:
+    image: postgres:15-alpine
+    container_name: fhir-db
+    volumes:
+      - fhir_pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: hapi
+      POSTGRES_USER: hapi
+      POSTGRES_PASSWORD: hapi_2025
+    networks:
+      - fhir-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hapi"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  fhir-server:
+    image: hapiproject/hapi:latest
+    container_name: fhir-server
+    ports:
+      - "8080:8080"
+    environment:
+      spring.datasource.url: jdbc:postgresql://fhir-db:5432/hapi
+      spring.datasource.username: hapi
+      spring.datasource.password: hapi_2025
+      hapi.fhir.fhir_version: R4
+    volumes:
+      - ./fhir-server/application.yaml:/app/config/application.yaml:ro
+    depends_on:
+      fhir-db:
+        condition: service_healthy
+    networks:
+      - fhir-net
+
+  ai-service:
+    build: ./ai-service
+    container_name: ai-service
+    ports:
+      - "8000:8000"
+    environment:
+      FHIR_BASE_URL: "http://fhir-server:8080/fhir"
+      MLFLOW_TRACKING_URI: "http://mlflow:5000"
+    volumes:
+      - ./ai-service/models:/app/models
+      - ./data:/app/data
+    depends_on:
+      - fhir-server
+      - mlflow
+    networks:
+      - fhir-net
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.12.2
+    container_name: mlflow
+    ports:
+      - "5000:5000"
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri /mlruns --default-artifact-root /mlruns
+    volumes:
+      - mlflow_data:/mlruns
+    networks:
+      - fhir-net
+
+  # Descomentar para correr entrenamiento dentro de Docker (opcional)
+  # training:
+  #   build: ./training
+  #   container_name: training
+  #   environment:
+  #     MODEL_DIR: /app/models
+  #     MLFLOW_TRACKING_URI: "http://mlflow:5000"
+  #   volumes:
+  #     - ./ai-service/models:/app/models
+  #   depends_on:
+  #     - mlflow
+  #   networks:
+  #     - fhir-net
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      AI_SERVICE_URL: "http://localhost:8000"
+      FHIR_URL: "http://localhost:8080/fhir"
+    depends_on:
+      - ai-service
+    networks:
+      - fhir-net
+
+volumes:
+  fhir_pgdata: {}
+  mlflow_data: {}
+
+networks:
+  fhir-net:
+    driver: bridge

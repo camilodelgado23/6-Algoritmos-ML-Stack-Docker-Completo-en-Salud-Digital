@@ -1,0 +1,8 @@
+scikit-learn==1.4.2
+xgboost==2.0.3
+mlflow==2.12.2
+ucimlrepo==0.0.7
+numpy==1.26.4
+pandas==2.2.2
+# TabPFN (opcional — solo si tienes GPU o quieres esperar en CPU)
+# tabpfn==0.1.9

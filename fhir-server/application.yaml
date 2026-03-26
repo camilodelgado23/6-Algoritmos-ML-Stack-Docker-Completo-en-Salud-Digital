@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://fhir-db:5432/hapi
+    username: hapi
+    password: hapi_2025
+    driverClassName: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirH2Dialect
+      hibernate.show_sql: false
+      hibernate.format_sql: false
+
+hapi:
+  fhir:
+    fhir_version: R4
+    # Permitir IDs personalizados (para Patient/P001, etc.)
+    allow_external_references: true
+    allow_multiple_delete: true
+    # Tamaño de página por defecto
+    default_page_size: 20
+    max_page_size: 100
+    # CORS para el frontend
+    cors:
+      allow_Credentials: true
+      allowed_origin:
+        - "*"
+    # Recursos permitidos (solo los que usamos)
+    supported_resource_types:
+      - Patient
+      - RiskAssessment
+      - Observation
+      - Bundle

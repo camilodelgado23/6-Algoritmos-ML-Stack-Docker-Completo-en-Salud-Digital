@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# Modelos entrenados (volúmenes grandes)
+ai-service/models/*.pkl
+ai-service/models/*.json
+data/*.csv
+
+# Docker
+.env
+
+# MLflow local
+mlruns/
+mlflow.db
+
+# OS
+.DS_Store
+Thumbs.db
