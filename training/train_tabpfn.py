@@ -12,7 +12,7 @@ from sklearn.metrics import f1_score, roc_auc_score, accuracy_score, classificat
 from sklearn.preprocessing import LabelEncoder
 from ucimlrepo import fetch_ucirepo
 
-MLFLOW_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+MLFLOW_URI = os.getenv("MLFLOW_TRACKING_URI", "./mlruns")
 MODEL_DIR  = os.getenv("MODEL_DIR", "./models")
 os.makedirs(MODEL_DIR, exist_ok=True)
 
