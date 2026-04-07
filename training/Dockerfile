@@ -11,7 +11,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # El script principal entrena todos los modelos y guarda en /app/models
-# Uso: docker run --rm -v $(pwd)/ai-service/models:/app/models training
 ENV MODEL_DIR=/app/models
 ENV MLFLOW_TRACKING_URI=http://mlflow:5000
 

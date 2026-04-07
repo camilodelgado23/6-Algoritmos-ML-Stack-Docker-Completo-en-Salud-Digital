@@ -1,7 +1,6 @@
 """
 train_dt.py — Decision Tree
 Dataset: Heart Disease (UCI id=45) — 303 pacientes, clasificación binaria
-Fácil de usar, sin dependencias exóticas, rápido de entrenar.
 """
 
 import json

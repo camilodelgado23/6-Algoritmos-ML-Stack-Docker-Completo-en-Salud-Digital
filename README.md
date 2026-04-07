@@ -193,7 +193,7 @@ docker-compose logs -f
 # Ver logs solo del ai-service
 docker-compose logs -f ai-service
 
-# Reiniciar solo el ai-service (si cambias main.py)
+# Reiniciar solo el ai-service
 docker-compose restart ai-service
 
 # Detener el stack (conserva los datos)

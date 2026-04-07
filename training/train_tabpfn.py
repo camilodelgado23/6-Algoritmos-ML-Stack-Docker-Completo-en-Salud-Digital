@@ -1,7 +1,6 @@
 """
 train_tabpfn.py — TabPFN (Prior-Fitted Networks)
 Dataset: Heart Disease (UCI id=45)
-Nota: TabPFN requiere <= 1000 muestras de entrenamiento (perfecto para 303 pacientes)
 """
 
 import json, time, pickle, os

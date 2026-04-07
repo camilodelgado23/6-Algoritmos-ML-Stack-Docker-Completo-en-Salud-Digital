@@ -64,7 +64,6 @@ services:
     networks:
       - fhir-net
 
-  # Descomentar para correr entrenamiento dentro de Docker (opcional)
   training:
     build: ./training
     container_name: training
@@ -74,8 +73,8 @@ services:
       MLFLOW_TRACKING_URI: "http://mlflow:5000"
     volumes:
       - ./ai-service/models:/app/models
-      - ./run_all_training.py:/app/run_all_training.py   # 👈 CLAVE
-      - ./training:/app/training                         # 👈 scripts de entrenamiento
+      - ./run_all_training.py:/app/run_all_training.py   
+      - ./training:/app/training                         
     depends_on:
       - mlflow
     networks:

@@ -2,7 +2,6 @@
 run_all_training.py — Entrena los 6 modelos, los compara y elige el mejor.
 Ejecutar desde la raíz del proyecto:
   python run_all_training.py
-O desde dentro del contenedor de training (ve docker-compose.yml).
 """
 
 import subprocess, sys, json, os

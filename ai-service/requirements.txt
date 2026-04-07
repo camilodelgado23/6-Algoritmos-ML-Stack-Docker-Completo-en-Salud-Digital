@@ -8,5 +8,3 @@ scikit-learn==1.4.2
 xgboost==2.0.3
 mlflow==2.12.2
 ucimlrepo==0.0.7
-# TabPFN opcional (requiere GPU o CPU lento en CPU-only)
-# tabpfn==0.1.9
